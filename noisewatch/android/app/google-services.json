@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "474011763806",
+    "firebase_url": "https://noisewatch-70f20-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "noisewatch-70f20",
+    "storage_bucket": "noisewatch-70f20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474011763806:android:0b6125a446f6f93df1a0cf",
+        "android_client_info": {
+          "package_name": "com.example.noisewatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474011763806-uq99u4mahs0a2p8cf199hgpm8qtmvrk1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwnKejMPz3oYe40UZHIrUmuGfIvPqYF2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474011763806-uq99u4mahs0a2p8cf199hgpm8qtmvrk1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "474011763806-n52jvec3dkifcg79qjh7nfu4kt44g57f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.noisewatch"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
