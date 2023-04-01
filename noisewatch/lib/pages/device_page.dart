@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:noisewatch/components/constants.dart';
+import 'package:noisewatch/pages/register_face_page.dart';
 
 class DevicePage extends StatefulWidget {
   // final int deviceID;
@@ -80,37 +81,6 @@ class _DevicePageState extends State<DevicePage> {
               aspectRatio: 16 / 9,
               placeholder: const Center(child: CircularProgressIndicator()),
             ),
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-
-          //train button
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: Size(w, h * .08),
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white),
-                onPressed: () {},
-                child: Text("TRAIN")),
-          ),
-
-          const SizedBox(
-            height: 20,
-          ),
-          //register button
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    minimumSize: Size(w, h * .08),
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white),
-                onPressed: () {},
-                child: Text("REGISTER")),
           ),
         ],
       ),

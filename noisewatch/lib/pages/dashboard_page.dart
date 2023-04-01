@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:noisewatch/components/neumorphic_tile.dart';
 import 'package:noisewatch/model/student_record.dart';
 import 'package:noisewatch/pages/device_page.dart';
+import 'package:noisewatch/pages/register_face_page.dart';
 import 'package:noisewatch/services/records_database_service.dart';
 import 'package:intl/intl.dart';
 
@@ -90,13 +91,10 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ],
       ),
-      SizedBox(
-        height: 10,
-      ),
       //horizontal listview
 
       Padding(
-        padding: const EdgeInsets.all(25.0),
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
         child: Container(
           height: 250,
           child: ListView(
@@ -150,6 +148,52 @@ class _DashboardPageState extends State<DashboardPage> {
       //   height: 10,
       // ),
       //devices
+
+      Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Text(
+              'Actions',
+              style: GoogleFonts.openSans(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+      SizedBox(height: 15), // Add some spacing between the row and the buttons
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton.icon(
+            onPressed: () {
+              // Handle register action
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterFacePage()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black54,
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40)),
+            icon: Icon(Icons.person_add_alt_1),
+            label: Text('REGISTER'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              // Handle train action
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black54,
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40)),
+            icon: Icon(Icons.school),
+            label: Text('TRAIN'),
+          ),
+        ],
+      ),
+      SizedBox(height: 15),
       Row(
         children: [
           Padding(
@@ -164,34 +208,38 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ],
       ),
+
       SizedBox(
-        height: 30,
+        height: 10,
       ),
       //device tiles
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            child: NeumorphicTile(
-              deviceID: 1,
-              deviceName: "NOISEWATCH 1",
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              child: NeumorphicTile(
+                deviceID: 1,
+                deviceName: "NOISEWATCH 1",
+              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DevicePage()));
+              },
             ),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => DevicePage()));
-            },
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          GestureDetector(
-            child: NeumorphicTile(deviceID: 2, deviceName: "NOISEWATCH 2"),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => DevicePage()));
-            },
-          )
-        ],
+            SizedBox(
+              width: 20,
+            ),
+            GestureDetector(
+              child: NeumorphicTile(deviceID: 2, deviceName: "NOISEWATCH 2"),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DevicePage()));
+              },
+            )
+          ],
+        ),
       ),
       SizedBox(
         height: 20,
