@@ -9,6 +9,7 @@ import 'package:noisewatch/pages/device_page.dart';
 import 'package:noisewatch/pages/register_face_page.dart';
 import 'package:noisewatch/services/records_database_service.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -181,13 +182,92 @@ class _DashboardPageState extends State<DashboardPage> {
             icon: Icon(Icons.person_add_alt_1),
             label: Text('REGISTER'),
           ),
+
+          //TRAIN
           ElevatedButton.icon(
-            onPressed: () {
-              // Handle train action
+            onPressed: () async {
+              // Show loading dialog
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    backgroundColor: Colors.grey.shade900,
+                    content: SizedBox(
+                      height: 80,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(
+                              color: Colors.red.shade900,
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              'Training model...',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+
+              try {
+                final response = await http.post(
+                  Uri.parse('http://192.168.1.19:5000/train'),
+                  headers: {'Content-Type': 'application/json'},
+                );
+
+                if (response.statusCode == 200) {
+                  // Show success dialog
+                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      Future.delayed(Duration(seconds: 2), () {
+                        Navigator.of(context).pop();
+                      });
+
+                      return AlertDialog(
+                        backgroundColor: Colors.grey.shade900,
+                        content: Row(
+                          children: [
+                            Icon(Icons.check, color: Colors.green),
+                            SizedBox(width: 20),
+                            Text("Training complete"),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  // Show error message
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        backgroundColor: Colors.red,
+                        content:
+                            Text('Error training face recognition model.')),
+                  );
+                }
+              } catch (e) {
+                // Show error message
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text(
+                          'Error training face recognition model exception.')),
+                );
+              }
             },
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black54,
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40)),
+              backgroundColor: Colors.black54,
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+            ),
             icon: Icon(Icons.school),
             label: Text('TRAIN'),
           ),
@@ -224,8 +304,12 @@ class _DashboardPageState extends State<DashboardPage> {
                 deviceName: "NOISEWATCH 1",
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DevicePage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DevicePage(
+                              deviceID: 1,
+                            )));
               },
             ),
             SizedBox(
@@ -234,8 +318,12 @@ class _DashboardPageState extends State<DashboardPage> {
             GestureDetector(
               child: NeumorphicTile(deviceID: 2, deviceName: "NOISEWATCH 2"),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DevicePage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DevicePage(
+                              deviceID: 2,
+                            )));
               },
             )
           ],

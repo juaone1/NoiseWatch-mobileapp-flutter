@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:noisewatch/components/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
@@ -66,60 +68,170 @@ class NotificationPage extends StatelessWidget {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  backgroundColor: Colors.grey[900],
-                                  content: SingleChildScrollView(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          snapshot.data![index]['name'],
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Image.network(
-                                          snapshot.data![index]['url'],
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent?
-                                                  loadingProgress) {
-                                            if (loadingProgress == null) {
-                                              return child;
-                                            }
-                                            return Center(
-                                              child: CircularProgressIndicator(
-                                                color: Colors.red.shade900,
-                                                value: loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null
-                                                    ? loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                        (loadingProgress
-                                                                .expectedTotalBytes ??
-                                                            1)
-                                                    : null,
+                                    backgroundColor: Colors.grey[900],
+                                    content: SingleChildScrollView(
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                          Text(
+                                            snapshot.data![index]['name'],
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Image.network(
+                                            snapshot.data![index]['url'],
+                                            loadingBuilder:
+                                                (BuildContext context,
+                                                    Widget child,
+                                                    ImageChunkEvent?
+                                                        loadingProgress) {
+                                              if (loadingProgress == null) {
+                                                return child;
+                                              }
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Colors.red.shade900,
+                                                  value: loadingProgress
+                                                              .expectedTotalBytes !=
+                                                          null
+                                                      ? loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          (loadingProgress
+                                                                  .expectedTotalBytes ??
+                                                              1)
+                                                      : null,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          SizedBox(height: 10),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: 20,
                                               ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  actions: <Widget>[
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  minimumSize: Size(180, 40),
+                                                  backgroundColor:
+                                                      Colors.red.shade900,
+                                                ),
+                                                onPressed: () async {
+                                                  final imageUrl = snapshot
+                                                      .data![index]['url'];
+                                                  final imageUri =
+                                                      Uri.parse(imageUrl);
+                                                  final imageBytes = await http
+                                                      .readBytes(Uri.parse(
+                                                          snapshot.data![index]
+                                                              ['url']));
+                                                  final response =
+                                                      await http.post(
+                                                    Uri.parse(
+                                                        'http://192.168.1.31:5000/compare'),
+                                                    headers: {
+                                                      'Content-Type':
+                                                          'application/octet-stream'
+                                                    },
+                                                    body: imageBytes,
+                                                  );
+                                                  if (response.statusCode ==
+                                                      200) {
+                                                    final result = jsonDecode(
+                                                        response.body);
+                                                    final name = result['name'];
+                                                    final percentage =
+                                                        result['percentage'];
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          backgroundColor:
+                                                              Colors.grey[900],
+                                                          content: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              Text(
+                                                                'Name: $name',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 18,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                  height: 10),
+                                                              Text(
+                                                                'Percentage: $percentage %',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 16,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          actions: <Widget>[
+                                                            ElevatedButton(
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                minimumSize:
+                                                                    Size(120,
+                                                                        40),
+                                                                backgroundColor:
+                                                                    Colors.red
+                                                                        .shade900,
+                                                              ),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              child:
+                                                                  Text('Close'),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  } else {
+                                                    print(
+                                                        'Error verifying image: ${response.statusCode}');
+                                                  }
+                                                },
+                                                child: Text('Verify'),
+                                              ),
+                                              IconButton(
+                                                icon: Icon(
+                                                  Icons.close,
+                                                  color: Colors.white,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ])));
                               },
                             );
                           },

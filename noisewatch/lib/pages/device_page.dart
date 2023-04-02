@@ -5,31 +5,44 @@ import 'package:noisewatch/components/constants.dart';
 import 'package:noisewatch/pages/register_face_page.dart';
 
 class DevicePage extends StatefulWidget {
-  // final int deviceID;
+  final int deviceID;
 
-  const DevicePage({super.key});
+  const DevicePage({super.key, required this.deviceID});
 
   @override
   State<DevicePage> createState() => _DevicePageState();
 }
 
 class _DevicePageState extends State<DevicePage> {
-  // String get noiseWatchURL {
-  //   switch (widget.deviceID) {
-  //     case 1:
-  //       return 'http://192.168.1.17:5000';
-  //     case 2:
-  //       return 'http://192.168.1.18:5000';
-  //     default:
-  //       throw Exception('Invalid device ID.');
-  //   }
-  // }
+  late String noiseWatchURL;
+  late VlcPlayerController videoController;
 
-  final VlcPlayerController videoController = VlcPlayerController.network(
-      'http://192.168.1.20:5000/video_feed',
+  @override
+  void initState() {
+    super.initState();
+    switch (widget.deviceID) {
+      case 1:
+        noiseWatchURL = 'http://192.168.1.31:5000/video_feed';
+        break;
+      case 2:
+        noiseWatchURL = 'http://192.168.1.18:5000/video_feed';
+        break;
+      default:
+        throw Exception('Invalid device ID.');
+    }
+    videoController = VlcPlayerController.network(
+      noiseWatchURL,
       hwAcc: HwAcc.full,
       autoPlay: true,
-      options: VlcPlayerOptions());
+      options: VlcPlayerOptions(),
+    );
+  }
+
+  // final VlcPlayerController videoController = VlcPlayerController.network(
+  //     'http://192.168.1.20:5000/video_feed',
+  //     hwAcc: HwAcc.full,
+  //     autoPlay: true,
+  //     options: VlcPlayerOptions());
 
   @override
   Widget build(BuildContext context) {

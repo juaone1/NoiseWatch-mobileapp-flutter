@@ -35,7 +35,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt), label: 'Records'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.notifications), label: 'Notification'),
+                icon: Icon(Icons.person_off_rounded), label: 'Unknowns'),
           ]),
       body: screens[currentIndex],
     );
