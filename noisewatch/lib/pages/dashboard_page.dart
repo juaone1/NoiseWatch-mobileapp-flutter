@@ -217,7 +217,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
               try {
                 final response = await http.post(
-                  Uri.parse('http://192.168.1.19:5000/train'),
+                  Uri.parse('http://192.168.1.10:5000/train'), // unsa ni sever IP?
                   headers: {'Content-Type': 'application/json'},
                 );
 

@@ -21,13 +21,13 @@ class _NeumorphicTileState extends State<NeumorphicTile> {
     switch (deviceId) {
       case 1:
         url = startStream
-            ? 'http://192.168.1.31:5000/stream_start'
-            : 'http://192.168.1.31:5000/stream_stop';
+            ? 'http://192.168.1.120:5000/stream_start'
+            : 'http://192.168.1.120:5000/stream_stop';    //device1
         break;
       case 2:
         url = startStream
-            ? 'http://192.168.1.20:5000/stream_start'
-            : 'http://192.168.1.20:5000/stream_stop';
+            ? 'http://192.168.1.121:5000/stream_start'
+            : 'http://192.168.1.121:5000/stream_stop';   //device2
         break;
       default:
         print('Invalid device ID.');

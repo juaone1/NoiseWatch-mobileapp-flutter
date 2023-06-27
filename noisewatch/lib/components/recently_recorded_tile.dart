@@ -36,10 +36,10 @@ class _RecentlyRecordedTileState extends State<RecentlyRecordedTile> {
         .then((value) => Navigator.of(context).pop());
   }
 
-  getColor(no_of_offense) {
-    if (no_of_offense <= 0) {
+  getColor(noOfOffense) {
+    if (noOfOffense <= 0) {
       return Colors.green;
-    } else if (no_of_offense <= 2) {
+    } else if (noOfOffense <= 2) {
       return Colors.orange.shade400;
     } else {
       return Colors.red.shade900;

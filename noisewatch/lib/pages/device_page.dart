@@ -22,10 +22,10 @@ class _DevicePageState extends State<DevicePage> {
     super.initState();
     switch (widget.deviceID) {
       case 1:
-        noiseWatchURL = 'http://192.168.1.31:5000/video_feed';
+        noiseWatchURL = 'http://192.168.1.120:5000/video_feed'; // device 1
         break;
       case 2:
-        noiseWatchURL = 'http://192.168.1.18:5000/video_feed';
+        noiseWatchURL = 'http://192.168.1.121:5000/video_feed'; // device 2
         break;
       default:
         throw Exception('Invalid device ID.');

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:noisewatch/components/constants.dart';
 import 'package:noisewatch/components/records_tile.dart';
 import 'package:noisewatch/utils/dialog_box.dart';
+import 'dart:core';
 
 import '../components/recently_recorded_tile.dart';
 
@@ -95,7 +96,12 @@ class _RecordsPageState extends State<RecordsPage> {
                   Map map = snapshot.data!.snapshot.value;
                   List list = [];
                   list.clear();
-                  list = map.values.toList();
+                  map?.forEach((key, value) {
+                    value['keyName'] = key;
+                    list.add(value);
+                  });
+                  // list = map.values.toList();
+                  print(list);
 
                   return Expanded(
                     child: ListView.builder(
@@ -105,7 +111,7 @@ class _RecordsPageState extends State<RecordsPage> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 10.0),
                             child: RecentlyRecordedTile(
-                              keyName: list[index]['name'],
+                              keyName: list[index]['keyName'],
                               name: list[index]['name'],
                               offense: list[index]['offense'],
                             ),

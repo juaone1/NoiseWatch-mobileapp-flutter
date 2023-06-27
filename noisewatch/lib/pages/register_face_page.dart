@@ -17,7 +17,7 @@ class _RegisterFacePageState extends State<RegisterFacePage> {
   String _fullName = '';
 
   VlcPlayerController videoController = VlcPlayerController.network(
-    'http://192.168.1.9:5000/video_feed',
+    'http://192.168.1.10:5000/video_feed',
     hwAcc: HwAcc.full,
     autoPlay: true,
     options: VlcPlayerOptions(),
@@ -25,7 +25,7 @@ class _RegisterFacePageState extends State<RegisterFacePage> {
 
   Future<void> registerFace(String fullName) async {
     final response = await http.post(
-      Uri.parse('http://192.168.1.9:5000/register'),
+      Uri.parse('http://192.168.1.10:5000/register'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'full_name': fullName}),
     );
@@ -33,7 +33,7 @@ class _RegisterFacePageState extends State<RegisterFacePage> {
     if (response.statusCode == 200) {
       print('Face registered successfully');
       VlcPlayerController newController = VlcPlayerController.network(
-        'http://192.168.1.9:5000/video_feed',
+        'http://192.168.1.10:5000/video_feed',
         hwAcc: HwAcc.full,
         autoPlay: true,
         options: VlcPlayerOptions(),

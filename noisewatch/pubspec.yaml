@@ -46,6 +46,9 @@ dependencies:
   http: ^0.13.5
   flutter_vlc_player: ^7.2.0
   video_player: ^2.6.0
+  cached_network_image: ^3.2.3
+  shimmer: ^3.0.0
+  flutter_cache_manager: ^3.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
